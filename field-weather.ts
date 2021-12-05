@@ -85,7 +85,10 @@ export class FieldWeather implements IFieldWeather {
     // 4. Display Field Weather Forecast in following format
     private outputWeatherData(data: IForecast[]) {
         // console.table(data);
-        console.log(data)
+
+
+
+        console.table(data)
     }
 
     // 2. Make URL for the MET.NO API
@@ -109,7 +112,7 @@ export class FieldWeather implements IFieldWeather {
         const timeSeries = weatherData.properties.timeseries;
 
         let returnData: any = [];
-        let dataEntry: any = [];
+        let dataEntry: any = {};
 
         let i = 0;
         let whatHour = -1;
@@ -122,15 +125,14 @@ export class FieldWeather implements IFieldWeather {
             i++
         };
 
-        dataEntry[0] = timeSeries[i-1].time.slice(0, 4);
-        dataEntry[1] = timeSeries[i-1].time.slice(5, 7);
-        dataEntry[2] = timeSeries[i-1].time.slice(8, 10);
-        dataEntry[3] = parseFloat((sumTemp / (i-1)).toFixed(1));
-        returnData.push(dataEntry.slice(0));
+        dataEntry.year = timeSeries[i-1].time.slice(0, 4);
+        dataEntry.month = timeSeries[i-1].time.slice(5, 7);
+        dataEntry.day = timeSeries[i-1].time.slice(8, 10);
+        dataEntry.temperature = parseFloat((sumTemp / (i-1)).toFixed(1));
+        returnData.push({...dataEntry});
         //console.log(returnData[0])
         //console.log('Day! 1');
         sumTemp = 0;
-
 
         for (let nextDay = 2; nextDay < 10 ;) {
             do {
@@ -140,16 +142,18 @@ export class FieldWeather implements IFieldWeather {
                 sumTemp = sumTemp + (timeSeries[i].data.next_6_hours.details.air_temperature_max + timeSeries[i].data.next_6_hours.details.air_temperature_min)/2 ;}
                 i++
             } while (whatHour != 18);
-            dataEntry[0] = timeSeries[i-1].time.slice(0, 4);
-            dataEntry[1] = timeSeries[i-1].time.slice(5, 7);
-            dataEntry[2] = timeSeries[i-1].time.slice(8, 10);
-            dataEntry[3] = parseFloat((sumTemp/4).toFixed(1));
-            returnData.push(dataEntry.slice(0));
+            dataEntry.year = timeSeries[i-1].time.slice(0, 4);
+            dataEntry.month = timeSeries[i-1].time.slice(5, 7);
+            dataEntry.day = timeSeries[i-1].time.slice(8, 10);
+            dataEntry.temperature = parseFloat((sumTemp/4).toFixed(1));
+            returnData.push({...dataEntry});
             //returnData.push(timeSeries[i-1].time.slice(0, 4) +'.'+ timeSeries[i-1].time.slice(5, 7) +'.'+ timeSeries[i-1].time.slice(8, 10) +' '+ (sumTemp/4).toFixed(1) );
             //console.log('Day! - ' + (nextDay));
             sumTemp = 0;
             nextDay++;
         }
+
+
 
 
         whatHour = timeSeries[i].time.slice(11,13);
@@ -161,29 +165,29 @@ export class FieldWeather implements IFieldWeather {
                 console.log(sumTemp);
                 i++
             };
-            dataEntry[3] = parseFloat((sumTemp/4).toFixed(1));
-            dataEntry[0] = timeSeries[i-1].time.slice(0, 4);
-            dataEntry[1] = timeSeries[i-1].time.slice(5, 7);
-            dataEntry[2] = timeSeries[i-1].time.slice(8, 10);
-            returnData.push(dataEntry.slice(0));
+            dataEntry.year = timeSeries[i-1].time.slice(0, 4);
+            dataEntry.month = timeSeries[i-1].time.slice(5, 7);
+            dataEntry.day = timeSeries[i-1].time.slice(8, 10);
+            dataEntry.temperature = parseFloat((sumTemp/4).toFixed(1));
+            returnData.push({...dataEntry});
         }
         catch (exception_var) {
             console.log('error: list end');
             switch (whatHour) {
                 case 6:
-                    dataEntry[3] = parseFloat((sumTemp).toFixed(1));
+                    dataEntry.temperature = parseFloat((sumTemp).toFixed(1));
                     break;
                 case 12:
-                    dataEntry[3] = parseFloat((sumTemp / 2).toFixed(1));
+                    dataEntry.temperature = parseFloat((sumTemp/2).toFixed(1));
                     break;
                 case 16:
-                    dataEntry[3] = parseFloat((sumTemp / 3).toFixed(1));
+                    dataEntry.temperature = parseFloat((sumTemp/3).toFixed(1));
                     break;
             }
-            dataEntry[0] = timeSeries[i-1].time.slice(0, 4);
-            dataEntry[1] = timeSeries[i-1].time.slice(5, 7);
-            dataEntry[2] = timeSeries[i-1].time.slice(8, 10);
-            returnData.push(dataEntry.slice(0));
+            dataEntry.year = timeSeries[i-1].time.slice(0, 4);
+            dataEntry.month = timeSeries[i-1].time.slice(5, 7);
+            dataEntry.day = timeSeries[i-1].time.slice(8, 10);
+            returnData.push({...dataEntry});
         }
 
 
