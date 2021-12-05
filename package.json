@@ -7,7 +7,8 @@
   "scripts": {
     "book-example": "deno run books.ts",
     "building-example": "deno run building.ts",
-    "fieldGeoPos": "deno run index.ts",
+    "fieldGeoPos": "deno run --allow-net index.ts",
+    "weatherGeo": "deno run --allow-net field-weather.ts",
     "start": "node index.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --watchAll"
   },

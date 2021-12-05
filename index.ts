@@ -20,7 +20,8 @@ import {IGeoPos} from './models/geopoint.ts';
 import {Field} from "./classField.ts";
 import {Device} from "./classDevice.ts";
 import {GeoPoint} from "./classGeoPoint.ts";
-
+import {FieldWeather} from "./field-weather.ts";
+import {IField} from "./models/field.ts";
 
 
 {
@@ -28,34 +29,45 @@ import {GeoPoint} from "./classGeoPoint.ts";
     field1.setName('Auzas');
 
 
-    const tmpPoint: GeoPoint = new GeoPoint();
-    const fieldDevice: Device = new Device();
+    let tmpPoint1: GeoPoint = new GeoPoint(0,0);
+    let fieldDevice1: Device = new Device();
+    fieldDevice1.setName('Device1');
+    tmpPoint1.setLatLong(57.13386537285368, 24.90490366358909);
+    fieldDevice1.setCoordinates(tmpPoint1)
+    field1.putDevice(fieldDevice1);
 
-    fieldDevice.setName('Device1');
-    tmpPoint.setLatLong(57.13386537285368, 24.90490366358909);
-    fieldDevice.setCoordinates(tmpPoint)
-    field1.putDevice(fieldDevice);
+    let tmpPoint2: GeoPoint = new GeoPoint(0,0);
+    let fieldDevice2: Device = new Device();
+    fieldDevice2.setName('Device2');
+    tmpPoint2.setLatLong(57.1304648181804, 24.911190694842237);
+    fieldDevice2.setCoordinates(tmpPoint2)
+    field1.putDevice(fieldDevice2);
 
-    fieldDevice.setName('Device2');
-    tmpPoint.setLatLong(57.1304648181804, 24.911190694842237);
-    fieldDevice.setCoordinates(tmpPoint)
-    field1.putDevice(fieldDevice);
-
-    fieldDevice.setName('Device3');
-    tmpPoint.setLatLong(57.134861907040325, 24.89559299026985);
-    fieldDevice.setCoordinates(tmpPoint)
-    field1.putDevice(fieldDevice);
+    let tmpPoint3: GeoPoint = new GeoPoint(0,0);
+    let fieldDevice3: Device = new Device();
+    fieldDevice3.setName('Device3');
+    tmpPoint3.setLatLong(57.134861907040325, 24.89559299026985);
+    fieldDevice3.setCoordinates(tmpPoint3)
+    field1.putDevice(fieldDevice3);
 
     console.table(field1.listDevices())
 
-
-    const coordArray: IGeoPos[] = []
-    tmpPoint.setLatLong(57.13386537285368, 24.90490366358909);
-    coordArray.push(tmpPoint)
-    tmpPoint.setLatLong(57.135618083149254, 24.88763586249546);
-    coordArray.push(tmpPoint)
+    let tmpPoint4: GeoPoint = new GeoPoint(0,0);
+    let coordArray: IGeoPos[] = []
+    tmpPoint4.setLatLong(57.133313235657404, 24.912765133311225);
+    coordArray.push(tmpPoint4)
+    let tmpPoint5: GeoPoint = new GeoPoint(0,0);
+    tmpPoint5.setLatLong(57.13606889653252, 24.884159887439033);
+    coordArray.push(tmpPoint5)
     field1.setCoordinates(coordArray);
 
     console.table(field1.listCoordinates())
+
+
+
+
+    //const localWeather: FieldWeather = new FieldWeather(field1);
+
+    // console.log(localWeather.getFieldCenterPoint(coordArray));
 
 }

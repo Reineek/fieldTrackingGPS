@@ -4,6 +4,11 @@ export class GeoPoint implements IGeoPos {
     private lat: number = 0;
     private lng: number = 0;
 
+    constructor(lat: number, lng: number) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     getLat(): number {
         return this.lat;
     }
